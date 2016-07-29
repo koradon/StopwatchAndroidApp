@@ -10,6 +10,7 @@ public class StopwatchActivity extends AppCompatActivity {
 
     private int milliseconds;
     private boolean running;
+    private boolean wasRunning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,8 +18,9 @@ public class StopwatchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_stopwatch);
 
         if(savedInstanceState != null){
-            milliseconds = savedInstanceState.getInt("milliseconds", milliseconds);
-            running = savedInstanceState.getBoolean("running", running);
+            milliseconds = savedInstanceState.getInt("milliseconds");
+            running = savedInstanceState.getBoolean("running");
+            wasRunning = savedInstanceState.getBoolean("wasRunning");
         }
         runTimmer();
     }
@@ -28,6 +30,22 @@ public class StopwatchActivity extends AppCompatActivity {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putInt("milliseconds", milliseconds);
         savedInstanceState.putBoolean("running", running);
+        savedInstanceState.putBoolean("wasRunning", wasRunning);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        wasRunning = running;
+        running = false;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(wasRunning){
+            running = true;
+        }
     }
 
     public void onClickStart(View view){
