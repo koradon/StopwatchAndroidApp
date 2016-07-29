@@ -18,7 +18,7 @@
         android:layout_marginTop="0dp"
         android:text=""
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="92sp"/>
+        android:textSize="70sp"/>
 
     <Button
         android:id="@+id/start_button"

@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 public class StopwatchActivity extends AppCompatActivity {
 
-    private int seconds;
+    private int milliseconds;
     private boolean running;
 
     @Override
@@ -28,7 +28,7 @@ public class StopwatchActivity extends AppCompatActivity {
 
     public void onClickReset(View view){
         running = false;
-        seconds = 0;
+        milliseconds = 0;
     }
 
     private void runTimmer(){
@@ -38,19 +38,21 @@ public class StopwatchActivity extends AppCompatActivity {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                int hours = seconds/3600;
-                int minutes = (seconds%3600)/60;
-                int secs = seconds%60;
+                int milisec = (milliseconds%1000)/10;
+                int seconds = (milliseconds/1000)%60;
+                int minutes = (int) ((milliseconds/(1000*60)) % 60);
+                int hours   = (int) ((milliseconds/(1000*60*60)) % 24);
 
-                String time = String.format("%d:%02d:%02d", hours, minutes, secs);
+                String time = String.format("%d:%02d:%02d:%02d",
+                                            hours, minutes, seconds, milisec);
 
                 timeView.setText(time);
 
                 if(running){
-                    seconds++;
+                    milliseconds += 10;
                 }
 
-                handler.postDelayed(this, 1000);
+                handler.postDelayed(this, 10);
             }
         });
     }
